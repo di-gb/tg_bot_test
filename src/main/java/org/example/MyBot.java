@@ -3,12 +3,16 @@ package org.example;
 import com.vdurmont.emoji.EmojiParser;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
+import org.telegram.telegrambots.meta.api.methods.send.SendPhoto;
+import org.telegram.telegrambots.meta.api.objects.InputFile;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.text.DateFormat;
 import java.util.*;
 
@@ -91,7 +95,7 @@ public class MyBot extends TelegramLongPollingBot {
                 sendMassage(chatId, botUser.result());
                 sendMassage(chatId, botUser.restart());
                 sendMassage(GROUP_ID, "\nПользователь " + botUser.getFirstName() + " получил результат на опрос по java:" + botUser.resultResend() + "\n" + sdf.format(date));
-
+sendPhoto(chatId, "src/main/java/org/example/resources/wallpaper/embedded-3231_7f273e8a84954a08.jpg","картинка");
                 //здесь будет отправляться в общий чат как ответил пользователь на вопросы
                 sendMassage(chatId, "Хотете получить порцию информации для изучения ?");
             } else {
@@ -130,6 +134,19 @@ public class MyBot extends TelegramLongPollingBot {
             e.printStackTrace();
             e.getMessage();
             e.getCause();
+        }
+    }
+
+    public void sendPhoto(Long chatId, String fileName, String caption){
+        try {
+            SendPhoto sendPhoto = new SendPhoto();
+            sendPhoto.setChatId(chatId.toString());
+            sendPhoto.setPhoto(new InputFile( new FileInputStream( "./" + fileName), fileName));
+            sendPhoto.setCaption(caption);
+            execute(sendPhoto);
+
+        } catch (FileNotFoundException | TelegramApiException e) {
+            e.printStackTrace();
         }
     }
 
