@@ -23,7 +23,7 @@ public class MyBot extends TelegramLongPollingBot {
     Date date = new Date();
     //    URL url = new URL();
 //    url ="C:\\Users\\stroi\\IdeaProjects\\Start\\src\\main\\java\\org\\example\\resources\\wallpaper";
-    //имя бота
+    //имя бота.
     public static final String USER_NAME = "les_edu_3o8o58o_bot";
     //специальный токен для работы бота
 
@@ -74,6 +74,9 @@ public class MyBot extends TelegramLongPollingBot {
         QUESTIONS.add(new Question("Какой из вариантов содержит примитивные типы языка Java?",
                 List.of("int, real, string", "int, integer, string", "int, double, real, string", "int, double, float"),
                 3));
+        QUESTIONS.add(new Question("тестовый вопрос",
+                List.of("1", "2", "3", "4"),
+                3));
     }
 
 
@@ -95,7 +98,7 @@ public class MyBot extends TelegramLongPollingBot {
                 sendMassage(chatId, botUser.result());
                 sendMassage(chatId, botUser.restart());
                 sendMassage(GROUP_ID, "\nПользователь " + botUser.getFirstName() + " получил результат на опрос по java:" + botUser.resultResend() + "\n" + sdf.format(date));
-sendPhoto(chatId, "src/main/java/org/example/resources/wallpaper/embedded-3231_7f273e8a84954a08.jpg","картинка");
+                sendPhoto(chatId, "src/main/java/org/example/resources/wallpaper/изображение_viber_2025-02-19_19-14-03-997.jpg", "картинка");
                 //здесь будет отправляться в общий чат как ответил пользователь на вопросы
                 sendMassage(chatId, "Хотете получить порцию информации для изучения ?");
             } else {
@@ -137,11 +140,11 @@ sendPhoto(chatId, "src/main/java/org/example/resources/wallpaper/embedded-3231_7
         }
     }
 
-    public void sendPhoto(Long chatId, String fileName, String caption){
+    public void sendPhoto(Long chatId, String fileName, String caption) {
         try {
             SendPhoto sendPhoto = new SendPhoto();
             sendPhoto.setChatId(chatId.toString());
-            sendPhoto.setPhoto(new InputFile( new FileInputStream( "./" + fileName), fileName));
+            sendPhoto.setPhoto(new InputFile(new FileInputStream("./" + fileName), fileName));
             sendPhoto.setCaption(caption);
             execute(sendPhoto);
 
