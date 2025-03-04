@@ -18,7 +18,13 @@ public class BotUser {
 //    String tumbsUpSign = EmojiParser.parseToUnicode(":thumbsup:");
 //    String wava = EmojiParser.parseToUnicode(":wave:");
 
-    public String getNickName() { return nickName; }
+    public String getNickName() {
+        if (nickName == null || nickName.isEmpty() || nickName.equals(" ")) {
+            return "[Никнейм отсутствует]";
+        }
+        return nickName;
+    }
+
     public String getFirstName() {
         return firstName;
     }
