@@ -1,6 +1,6 @@
 package org.example;
 
-import com.vdurmont.emoji.EmojiParser;
+//import com.vdurmont.emoji.EmojiParser;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.methods.send.SendPhoto;
@@ -28,7 +28,7 @@ public class MyBot extends TelegramLongPollingBot {
     //специальный токен для работы бота
 
 
-    public static final String TOKEN = System.getenv("TOKEN");
+    public static final String TOKEN = System.getenv("SUPPORT_TOKEN");
     //лист вопросов и именем questions
     private final List<Question> QUESTIONS;
     //мапа с первым значением long и вторым значением ботЮзер с именем УзерМап
@@ -74,31 +74,6 @@ public class MyBot extends TelegramLongPollingBot {
         QUESTIONS.add(new Question("Какой из вариантов содержит примитивные типы языка Java?",
                 List.of("int, real, string", "int, integer, string", "int, double, real, string", "int, double, float"),
                 3));
-        QUESTIONS.add(new Question("тестовый вопрос",
-                List.of("1", "2", "3", "4"),
-                3));
-        QUESTIONS.add(new Question("тестовый вопрос",
-                List.of("1", "658", "3", "4"),
-                4));
-        QUESTIONS.add(new Question("тестовый вопрос",
-                List.of("1", "856", "567", "568"),
-                2));
-        QUESTIONS.add(new Question("тестовый вопрос",
-                List.of("1", "658", "3", "4"),
-                1));
-        QUESTIONS.add(new Question("тестовый вопрос",
-                List.of("1", "856", "567", "568"),
-                1));QUESTIONS.add(new Question("тестовый вопрос",
-                List.of("1", "856", "567", "568"),
-                1));QUESTIONS.add(new Question("тестовый вопрос",
-                List.of("1", "856", "567", "568"),
-                1));QUESTIONS.add(new Question("тестовый вопрос",
-                List.of("1", "856", "567", "568"),
-                1));QUESTIONS.add(new Question("тестовый вопрос",
-                List.of("1", "856", "567", "568"),
-                1));QUESTIONS.add(new Question("тестовый вопрос",
-                List.of("1", "856", "567", "568"),
-                1));
     }
 
 
@@ -119,7 +94,7 @@ public class MyBot extends TelegramLongPollingBot {
 
                 sendMassage(chatId, botUser.result());
                 sendMassage(chatId, botUser.restart());
-                sendMassage(GROUP_ID, "\nПользователь " + botUser.getFirstName() + " получил результат на опрос по java:" + botUser.resultResend() + "\n" + sdf.format(date));
+                sendMassage(GROUP_ID, "\nПользователь " + "@" + botUser.getNickName() + " " + botUser.getFirstName() + "\nID пользователя: " + botUser.getID() + "\n получил результат на опрос по java:" + botUser.resultResend() + "\n" + sdf.format(date));
                 sendPhoto(chatId, "src/main/java/org/example/resources/wallpaper/изображение_viber_2025-02-19_19-14-03-997.jpg", "картинка");
                 //здесь будет отправляться в общий чат как ответил пользователь на вопросы
                 sendMassage(chatId, "Хотете получить порцию информации для изучения ?");
@@ -133,11 +108,11 @@ public class MyBot extends TelegramLongPollingBot {
             Long chatId = update.getMessage().getChatId();
             Message message = update.getMessage();
             if (USER_MAP.get(chatId) == null) {
-                USER_MAP.put(chatId, new BotUser(message.getFrom().getId(), message.getFrom().getFirstName()));
+                USER_MAP.put(chatId, new BotUser(message.getFrom().getId(), message.getFrom().getFirstName(), message.getFrom().getUserName()));
 
-                String wave = EmojiParser.parseToUnicode(":wave:");
-                sendMassage(chatId, "\nПривет " + wave + " " + message.getFrom().getFirstName() + "! Пройди тест по Java ");
-                sendMessageWithButtons(chatId, QUESTIONS.get(0).getNameQuestion(), QUESTIONS.get(0).getAnswers());
+//                String wave = EmojiParser.parseToUnicode(":wave:");
+                sendMassage(chatId, "\nПривет " + " " + message.getFrom().getFirstName() + "! Пройди тест по Java ");
+                sendMessageWithButtons(chatId, QUESTIONS.getFirst().getNameQuestion(), QUESTIONS.getFirst().getAnswers());
 
 
             }
