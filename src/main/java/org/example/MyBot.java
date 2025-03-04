@@ -79,6 +79,11 @@ public class MyBot extends TelegramLongPollingBot {
 
     @Override
     public void onUpdateReceived(Update update) {
+
+        if (update.hasMessage() && update.getMessage().getChatId().equals(GROUP_ID)) {
+            return;
+        }
+
         if (update.hasCallbackQuery()) {
             String answer = update.getCallbackQuery().getData();
             long chatId = update.getCallbackQuery().getMessage().getChatId();
