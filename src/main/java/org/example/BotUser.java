@@ -1,6 +1,6 @@
 package org.example;
 
-import com.vdurmont.emoji.EmojiParser;
+//import com.vdurmont.emoji.EmojiParser;
 import org.telegram.telegrambots.meta.api.methods.send.SendPhoto;
 import org.telegram.telegrambots.meta.api.objects.InputFile;
 
@@ -13,14 +13,16 @@ public class BotUser {
     private String firstName;
     private int lastQuestion;
     private int numberOfRightQuestion;
+    private String nickName;
 
-    String tumbsUpSign = EmojiParser.parseToUnicode(":thumbsup:");
-    String wava = EmojiParser.parseToUnicode(":wave:");
+//    String tumbsUpSign = EmojiParser.parseToUnicode(":thumbsup:");
+//    String wava = EmojiParser.parseToUnicode(":wave:");
 
+    public String getNickName() { return nickName; }
     public String getFirstName() {
         return firstName;
     }
-
+    public long getID() { return id; }
     //
     public void setFirstName(String firstName) {
         this.firstName = firstName;
@@ -42,9 +44,10 @@ public class BotUser {
         this.numberOfRightQuestion = numberOfRightQuestion;
     }
 
-    public BotUser(long id, String firstName) {
+    public BotUser(long id, String firstName, String nickName) {
         this.id = id;
         this.firstName = firstName;
+        this.nickName = nickName;
     }
 
     public String result() {
@@ -55,7 +58,7 @@ public class BotUser {
         } else if (numberOfRightQuestion > 5 && numberOfRightQuestion <= 9) {
             return String.format("Хорошие знания!\nТы ответил на %d вопросов!",numberOfRightQuestion);
         } else {
-            return String.format("Отлично, ты ответил на все вопросы! " + tumbsUpSign + "\nТы ответил на %d вопросов!",numberOfRightQuestion);
+            return String.format("Отлично, ты ответил на все вопросы! " /*+ tumbsUpSign*/ + "\nТы ответил на %d вопросов!",numberOfRightQuestion);
         }
     }
 
@@ -67,13 +70,13 @@ public class BotUser {
         } else if (numberOfRightQuestion > 5 && numberOfRightQuestion <= 9) {
             return String.format("\n\"Хорошие знания!\" ответив на %d вопросов!", numberOfRightQuestion);
         } else {
-            return String.format("\n\"Отлично, ты ответил на все вопросы!\" " + tumbsUpSign +"\nВсего правильных ответов %d!",numberOfRightQuestion);
+            return String.format("\n\"Отлично, ты ответил на все вопросы!\" " /*+ tumbsUpSign*/ +"\nВсего правильных ответов %d!",numberOfRightQuestion);
         }
     }
 
     public String restart() {
-        String point_right = EmojiParser.parseToUnicode(":point_right:");
-        return "Если хотите пройти тест заново нажмите на " + point_right + " /start";
+//        String point_right = EmojiParser.parseToUnicode(":point_right:");
+        return "Если хотите пройти тест заново нажмите на " + /*point_right +*/ " /start";
     }
 
     public String getPhoto(Long chatId, String ImgUrl) throws MalformedURLException {
