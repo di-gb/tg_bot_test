@@ -50,10 +50,9 @@ public class BotUser {
         this.numberOfRightQuestion = numberOfRightQuestion;
     }
 
-    public BotUser(long id, String firstName, String nickName) {
+    public BotUser(long id, String firstName) {
         this.id = id;
         this.firstName = firstName;
-        this.nickName = nickName;
     }
 
     public String result() {
