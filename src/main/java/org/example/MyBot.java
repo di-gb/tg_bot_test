@@ -1,6 +1,7 @@
 package org.example;
 
 //import com.vdurmont.emoji.EmojiParser;
+import com.vdurmont.emoji.EmojiParser;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.methods.send.SendPhoto;
@@ -62,10 +63,6 @@ public class MyBot extends TelegramLongPollingBot {
                 List.of("class Волк extends Собака", "class Собака extends Волк", "class Волк implements Собака", "class Собака implements Волк"), 1));
         QUESTIONS.add(new Question("Какой из вариантов содержит примитивные типы языка Java?",
                 List.of("int, real, string", "int, integer, string", "int, double, real, string", "int, double, float"), 3));
-                List.of("int, real, string", "int, integer, string", "int, double, real, string", "int, double, float"),
-                3));
-    }
-
         // Additional 20 questions
         QUESTIONS.add(new Question("Какой метод вызывается при запуске программы Java?",
                 List.of("start()", "init()", "main()", "run()"), 2));
