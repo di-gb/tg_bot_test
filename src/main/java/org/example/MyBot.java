@@ -15,7 +15,6 @@ import java.io.FileNotFoundException;
 import java.text.DateFormat;
 import java.util.*;
 
-
 public class MyBot extends TelegramLongPollingBot {
     Locale ru = new Locale("ru");
     DateFormat sdf = DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT, ru);
@@ -36,6 +35,7 @@ public class MyBot extends TelegramLongPollingBot {
 
     @Override
     public void onUpdateReceived(Update update) {
+
         if (update.hasMessage() && update.getMessage().getChatId().equals(GROUP_ID)) {
             return;
         }
@@ -102,8 +102,6 @@ public class MyBot extends TelegramLongPollingBot {
             execute(replay);
         } catch (TelegramApiException e) {
             e.printStackTrace();
-            e.getMessage();
-            e.getCause();
         }
     }
 
@@ -114,7 +112,6 @@ public class MyBot extends TelegramLongPollingBot {
             sendPhoto.setPhoto(new InputFile(new FileInputStream("./" + fileName), fileName));
             sendPhoto.setCaption(caption);
             execute(sendPhoto);
-
         } catch (FileNotFoundException | TelegramApiException e) {
             e.printStackTrace();
         }
@@ -123,7 +120,6 @@ public class MyBot extends TelegramLongPollingBot {
     public static InlineKeyboardMarkup createButtons(List<String> buttonsName) {
         InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();
         List<List<InlineKeyboardButton>> rowsInLine = new ArrayList<>();
-
         buttonsName.forEach(name -> {
             List<InlineKeyboardButton> rowInline = new ArrayList<>();
             InlineKeyboardButton button = new InlineKeyboardButton();
@@ -132,7 +128,6 @@ public class MyBot extends TelegramLongPollingBot {
             rowInline.add(button);
             rowsInLine.add(rowInline);
         });
-
         inlineKeyboardMarkup.setKeyboard(rowsInLine);
         return inlineKeyboardMarkup;
     }
@@ -172,8 +167,6 @@ public class MyBot extends TelegramLongPollingBot {
             execute(reply);
         } catch (TelegramApiException e) {
             e.printStackTrace();
-            e.getMessage();
-            e.getCause();
         }
     }
 

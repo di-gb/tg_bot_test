@@ -53,10 +53,9 @@ public class BotUser {
         this.numberOfRightQuestion = numberOfRightQuestion;
     }
 
-    public BotUser(long id, String firstName, String nickName) {
+    public BotUser(long id, String firstName) {
         this.id = id;
         this.firstName = firstName;
-        this.nickName = nickName;
     }
 
     public String result() {
@@ -74,9 +73,9 @@ public class BotUser {
     public String resultResend() {
         if (numberOfRightQuestion <=2) {
             return String.format("\n\"Ты ничего не знаешь!\" ответив на %d вопрос(а)!",numberOfRightQuestion);
-        } else if (numberOfRightQuestion >3 && numberOfRightQuestion <= 5) {
+        } else if (numberOfRightQuestion >3 && numberOfRightQuestion <= 15) {
             return String.format("\n\"Ты что-то знаешь, но этого мало!\" ответив на %d вопроса(ов)!", numberOfRightQuestion);
-        } else if (numberOfRightQuestion > 5 && numberOfRightQuestion <= 9) {
+        } else if (numberOfRightQuestion > 15 && numberOfRightQuestion <= 29) {
             return String.format("\n\"Хорошие знания!\" ответив на %d вопросов!", numberOfRightQuestion);
         } else {
             return String.format("\n\"Отлично, ты ответил на все вопросы!\" " + "\nВсего правильных ответов %d!",numberOfRightQuestion);
