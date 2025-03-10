@@ -28,6 +28,4 @@ public class Question {
     public String getRightAnswer() {
         return answers.get(numberAnswer);
     }
-
-
 }

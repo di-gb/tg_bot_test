@@ -23,7 +23,7 @@ public class MyBot extends TelegramLongPollingBot {
     public static final String USER_NAME = "les_edu_3o8o58o_bot";
 
 
-    public static final String TOKEN = System.getenv("SUPPORT_TOKEN");
+    public static final String TOKEN = System.getenv("TOKEN");
     private List<Question> questions;
     private final Map<Long, BotUser> USER_MAP;
     public static final long GROUP_ID = -1002457027813l;
@@ -58,6 +58,9 @@ public class MyBot extends TelegramLongPollingBot {
 
             if (rightAnswer.equals(answer)) {
                 botUser.setNumberOfRightQuestion(botUser.getNumberOfRightQuestion() + 1);
+                sendMassage(chatId, "правильный ответ!");
+            }else {
+                sendMassage(chatId, "это не тот ответ которого мы ожидали!");
             }
 
             botUser.setLastQuestion(botUser.getLastQuestion() + 1);
