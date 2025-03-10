@@ -1,11 +1,14 @@
 package org.example;
 
-import com.vdurmont.emoji.EmojiParser;
 import org.telegram.telegrambots.meta.api.methods.send.SendPhoto;
 import org.telegram.telegrambots.meta.api.objects.InputFile;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.concurrent.ThreadLocalRandom;
 
 
 public class BotUser {
@@ -13,14 +16,22 @@ public class BotUser {
     private String firstName;
     private int lastQuestion;
     private int numberOfRightQuestion;
+    private String nickName;
 
-    String tumbsUpSign = EmojiParser.parseToUnicode(":thumbsup:");
-    String wava = EmojiParser.parseToUnicode(":wave:");
+    QuestionsList questionsList = new QuestionsList();
+    private List<Question> questions = questionsList.getQuestions();
+
+    public String getNickName() {
+        if (nickName == null || nickName.isEmpty() || nickName.equals(" ")) {
+            return "[Никнейм отсутствует]";
+        }
+        return nickName;
+    }
 
     public String getFirstName() {
         return firstName;
     }
-
+    public long getID() { return id; }
     //
     public void setFirstName(String firstName) {
         this.firstName = firstName;
@@ -42,9 +53,10 @@ public class BotUser {
         this.numberOfRightQuestion = numberOfRightQuestion;
     }
 
-    public BotUser(long id, String firstName) {
+    public BotUser(long id, String firstName, String nickName) {
         this.id = id;
         this.firstName = firstName;
+        this.nickName = nickName;
     }
 
     public String result() {
@@ -55,25 +67,20 @@ public class BotUser {
         } else if (numberOfRightQuestion > 5 && numberOfRightQuestion <= 9) {
             return String.format("Хорошие знания!\nТы ответил на %d вопросов!",numberOfRightQuestion);
         } else {
-            return String.format("Отлично, ты ответил на все вопросы! " + tumbsUpSign + "\nТы ответил на %d вопросов!",numberOfRightQuestion);
+            return String.format("Отлично, ты ответил на все вопросы! " + "\nТы ответил на %d вопросов!",numberOfRightQuestion);
         }
     }
 
     public String resultResend() {
         if (numberOfRightQuestion <=2) {
             return String.format("\n\"Ты ничего не знаешь!\" ответив на %d вопрос(а)!",numberOfRightQuestion);
-        } else if (numberOfRightQuestion >3 && numberOfRightQuestion <= 5) {
+        } else if (numberOfRightQuestion >3 && numberOfRightQuestion <= 15) {
             return String.format("\n\"Ты что-то знаешь, но этого мало!\" ответив на %d вопроса(ов)!", numberOfRightQuestion);
-        } else if (numberOfRightQuestion > 5 && numberOfRightQuestion <= 9) {
+        } else if (numberOfRightQuestion > 15 && numberOfRightQuestion <= 29) {
             return String.format("\n\"Хорошие знания!\" ответив на %d вопросов!", numberOfRightQuestion);
         } else {
-            return String.format("\n\"Отлично, ты ответил на все вопросы!\" " + tumbsUpSign +"\nВсего правильных ответов %d!",numberOfRightQuestion);
+            return String.format("\n\"Отлично, ты ответил на все вопросы!\" " + "\nВсего правильных ответов %d!",numberOfRightQuestion);
         }
-    }
-
-    public String restart() {
-        String point_right = EmojiParser.parseToUnicode(":point_right:");
-        return "Если хотите пройти тест заново нажмите на " + point_right + " /start";
     }
 
     public String getPhoto(Long chatId, String ImgUrl) throws MalformedURLException {
@@ -84,6 +91,26 @@ public class BotUser {
         sPhoto.setChatId(chatId.toString());
         sPhoto.setCaption("test");
         return String.valueOf(sPhoto);
+    }
+
+
+    public List<Question> getNewQuestions() {
+        //функция random зависит от времени
+            List<Question> newQuestions = new ArrayList<>();
+            List<Question> shuffledQuestions = new ArrayList<>(questions);
+            while (newQuestions.size()<5) {
+                Collections.shuffle(shuffledQuestions, ThreadLocalRandom.current());
+                if(!newQuestions.contains(shuffledQuestions.get(0))) {
+                    newQuestions.add(shuffledQuestions.get(0));
+                }
+            }
+            return newQuestions;
+
+    }
+
+    public void reset() {
+        this.lastQuestion = 0;
+        this.numberOfRightQuestion = 0;
     }
 
 }
