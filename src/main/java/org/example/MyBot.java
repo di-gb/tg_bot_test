@@ -48,7 +48,7 @@ public class MyBot extends TelegramLongPollingBot {
             if ("restart_test".equals(answer)) { // Проверяем, была ли нажата кнопка "Перезапустить тест"
                 botUser.reset();
                 questions = botUser.getNewQuestions(); // Получаем новые вопросы
-                sendMessageWithButtons(chatId, questions.getFirst().getNameQuestion(), questions.getFirst().getAnswers());
+                sendMessageWithButtons(chatId, questions.get(0).getNameQuestion(), questions.get(0).getAnswers());
                 return;
             }
 
@@ -88,7 +88,7 @@ public class MyBot extends TelegramLongPollingBot {
 
                 sendMassage(chatId, "\nПривет " + message.getFrom().getFirstName() + "! Пройди тест по Java ");
                 questions = botUser.getNewQuestions();
-                sendMessageWithButtons(chatId, questions.getFirst().getNameQuestion(), questions.getFirst().getAnswers());
+                sendMessageWithButtons(chatId, questions.get(0).getNameQuestion(), questions.get(0).getAnswers());
             }
         }
     }
