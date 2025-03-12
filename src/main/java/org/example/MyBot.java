@@ -1,11 +1,14 @@
 package org.example;
 
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
+import org.telegram.telegrambots.meta.api.methods.commands.SetMyCommands;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.methods.send.SendPhoto;
 import org.telegram.telegrambots.meta.api.objects.InputFile;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
+import org.telegram.telegrambots.meta.api.objects.commands.BotCommand;
+import org.telegram.telegrambots.meta.api.objects.commands.scope.BotCommandScopeDefault;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
@@ -31,13 +34,40 @@ public class MyBot extends TelegramLongPollingBot {
     public MyBot() {
         this.USER_MAP = new HashMap<>();
         this.questions = new ArrayList<>();
+
+
+        List<BotCommand> listOfCommands = new ArrayList<>();
+        listOfCommands.add(new BotCommand("/start", "перезапуск"));
+//               listOfCommands.add(new BotCommand(ActButton.NEW_ORDER.getCommand(), ActButton.NEW_ORDER.getName()));
+//            listOfCommands.add(new BotCommand(ActButton.CANCEL.getCommand(), ActButton.CANCEL.getName()));
+        try {
+            this.execute(new SetMyCommands(listOfCommands, new BotCommandScopeDefault(), null));
+        } catch (TelegramApiException e) {
+            e.printStackTrace();
+        }
+
     }
+
 
     @Override
     public void onUpdateReceived(Update update) {
 
         if (update.hasMessage() && update.getMessage().getChatId().equals(GROUP_ID)) {
             return;
+        }
+        if (update.hasMessage() && update.getMessage().hasText()) {
+            String text = update.getMessage().getText();
+            long chatId = update.getMessage().getChatId();
+            if (text.equals("/start") ) {
+                BotUser botUser = USER_MAP.get(chatId);
+                if (botUser !=null) {
+                    botUser.reset();
+
+                    questions = botUser.getNewQuestions(); // Получаем новые вопросы
+                    sendMessageWithButtons(chatId, questions.get(0).getNameQuestion(), questions.get(0).getAnswers());
+                    return;
+                }
+            }
         }
 
         if (update.hasCallbackQuery()) {
@@ -59,7 +89,7 @@ public class MyBot extends TelegramLongPollingBot {
             if (rightAnswer.equals(answer)) {
                 botUser.setNumberOfRightQuestion(botUser.getNumberOfRightQuestion() + 1);
                 sendMassage(chatId, "правильный ответ!");
-            }else {
+            } else {
                 sendMassage(chatId, "это не тот ответ которого мы ожидали!");
             }
 
@@ -70,7 +100,7 @@ public class MyBot extends TelegramLongPollingBot {
                 sendMassage(GROUP_ID, "\nПользователь " + "@" + botUser.getNickName() + " " + botUser.getFirstName() +
                         "\nID пользователя: " + botUser.getID() +
                         "\nполучил результат на опрос по java:" + botUser.resultResend() + "\n" + sdf.format(date));
-                sendPhoto(chatId, "src/main/java/org/example/resources/wallpaper/изображение_viber_2025-02-19_19-14-03-997.jpg", "картинка");
+                sendPhoto(chatId, "src/main/java/org/example/resources/wallpaper/изображение_viber_2025-02-19_18-50-37-324.jpg", "картинка");
 
                 sendRestartButton(chatId);
             } else {
@@ -159,7 +189,6 @@ public class MyBot extends TelegramLongPollingBot {
             e.printStackTrace();
         }
     }
-
 
 
     private void sendMassage(Long chatId, String text) {
