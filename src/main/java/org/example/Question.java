@@ -1,5 +1,6 @@
 package org.example;
 
+
 import java.util.List;
 
 public class Question {
@@ -28,6 +29,4 @@ public class Question {
     public String getRightAnswer() {
         return answers.get(numberAnswer);
     }
-
-
 }

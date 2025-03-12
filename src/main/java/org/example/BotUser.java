@@ -5,6 +5,7 @@ import org.telegram.telegrambots.meta.api.objects.InputFile;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -98,7 +99,7 @@ public class BotUser {
         //функция random зависит от времени
             List<Question> newQuestions = new ArrayList<>();
             List<Question> shuffledQuestions = new ArrayList<>(questions);
-            while (newQuestions.size()<5) {
+            while (newQuestions.size()<10) {
                 Collections.shuffle(shuffledQuestions, ThreadLocalRandom.current());
                 if(!newQuestions.contains(shuffledQuestions.get(0))) {
                     newQuestions.add(shuffledQuestions.get(0));
