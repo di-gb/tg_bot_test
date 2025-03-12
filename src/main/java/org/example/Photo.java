@@ -7,7 +7,7 @@ import java.util.List;
 public class Photo{
     private String namePhoto;
     private List<String> way;
-    URL url = new URL("C:\\Users\\stroi\\IdeaProjects\\Start\\src\\main\\java\\org\\example\\resources\\wallpaper");
+    URL url = new URL("изображение_viber_2025-02-19_19-14-03-997.jpg");
     public Photo(String namePhoto, List<String> way) throws MalformedURLException {
         this.namePhoto = namePhoto;
         this.way = way;
