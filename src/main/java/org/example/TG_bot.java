@@ -21,8 +21,6 @@ public class TG_bot {
         botOptions.setProxyPort(PROXY_PORT);
         botOptions.setProxyType(DefaultBotOptions.ProxyType.SOCKS4);
 
-
-
         MyBot myBot = new MyBot();
         try {
             telegramBotsApi.registerBot(myBot);
